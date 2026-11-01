@@ -135,19 +135,19 @@ const tok=t=>F.updateDoc(doc('users',me),{tokens:F.arrayUnion(t)});
 async function push(){try{const C=window.Capacitor;if(C?.isNativePlatform?.()){const P=C.Plugins.PushNotifications;if((await P.requestPermissions()).receive!='granted')return;P.addListener('registration',t=>tok(t.value));await P.register()}
 else if('Notification'in window&&VAPID&&await Notification.requestPermission()=='granted'){const M=await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging.js');const sw=await navigator.serviceWorker.register('firebase-messaging-sw.js');tok(await M.getToken(M.getMessaging(app),{vapidKey:VAPID,serviceWorkerRegistration:sw}))}}catch(e){console.log(e)}}
 /* profile pic editor */
-const cx=$('cv').getContext('2d'),N=300,A=170,C=150,cv=$('cv');let ph={x:0,y:0,z:1},fp={x:0,y:0,s:1.36},fim=null,fimData='',tg=0,pdy=0,fdy=0;
-function ring(f){const r=A/2+3;cx.save();cx.lineWidth=5;cx.beginPath();cx.arc(C,C,r,0,7);
+const cx=$('cv').getContext('2d'),PN=300,PA=170,PC=150,cv=$('cv');let ph={x:0,y:0,z:1},fp={x:0,y:0,s:1.36},fim=null,fimData='',tg=0,pdy=0,fdy=0;
+function ring(f){const r=PA/2+3;cx.save();cx.lineWidth=5;cx.beginPath();cx.arc(PC,PC,r,0,7);
 if(f=='1')cx.strokeStyle='gold';else if(f=='2'){cx.strokeStyle='#0ff';cx.shadowColor='#0ff';cx.shadowBlur=14;cx.lineWidth=3}else if(f=='3'){cx.strokeStyle='#14b4f0';cx.setLineDash([7,6]);cx.lineWidth=3}
-else if(f=='4'){let g='#f0f';if(cx.createConicGradient){g=cx.createConicGradient(-1.57,C,C);['red','orange','yellow','lime','cyan','blue','magenta','red'].forEach((c,i)=>g.addColorStop(i/7,c))}cx.strokeStyle=g;cx.lineWidth=7}else{cx.restore();return}
+else if(f=='4'){let g='#f0f';if(cx.createConicGradient){g=cx.createConicGradient(-1.57,PC,PC);['red','orange','yellow','lime','cyan','blue','magenta','red'].forEach((c,i)=>g.addColorStop(i/7,c))}cx.strokeStyle=g;cx.lineWidth=7}else{cx.restore();return}
 cx.stroke();cx.restore()}
-function draw(){cx.clearRect(0,0,N,N);cx.save();cx.beginPath();cx.arc(C,C,A/2,0,7);cx.clip();cx.fillStyle='#666';cx.fillRect(0,0,N,N);
-if(img.width){const k=A/Math.min(img.width,img.height)*ph.z,w=img.width*k,h=img.height*k;cx.drawImage(img,C+ph.x*A-w/2,C+ph.y*A-h/2,w,h)}cx.restore();
-const f=$('sf').value;ring(f);if(f=='c'&&fim&&fim.width){const w=A*fp.s,h=w*fim.height/fim.width;cx.drawImage(fim,C+fp.x*A-w/2,C+fp.y*A-h/2,w,h)}}
+function draw(){cx.clearRect(0,0,PN,PN);cx.save();cx.beginPath();cx.arc(PC,PC,PA/2,0,7);cx.clip();cx.fillStyle='#666';cx.fillRect(0,0,PN,PN);
+if(img.width){const k=PA/Math.min(img.width,img.height)*ph.z,w=img.width*k,h=img.height*k;cx.drawImage(img,PC+ph.x*PA-w/2,PC+ph.y*PA-h/2,w,h)}cx.restore();
+const f=$('sf').value;ring(f);if(f=='c'&&fim&&fim.width){const w=PA*fp.s,h=w*fim.height/fim.width;cx.drawImage(fim,PC+fp.x*PA-w/2,PC+fp.y*PA-h/2,w,h)}}
 window.draw=draw;
 window.tgt=t=>{if(t&&!(fim&&$('sf').value=='c')){$('hint').textContent='Pick "Custom image" and upload a PNG frame first.';return}tg=t;$('t0').className=t?'':'on';$('t1').className=t?'on':'';$('zm').value=t?fp.s:ph.z;$('hint').textContent=t?'Moving the frame. Drag to place it, slider to resize.':'Moving the photo. Drag to place it, slider to zoom.'};
 $('zm').oninput=()=>{const v=+$('zm').value;if(tg){fp.s=v;fdy=1}else{ph.z=v;pdy=1}draw()};
 let dr=0,lx,ly;cv.onpointerdown=e=>{dr=1;lx=e.clientX;ly=e.clientY;cv.setPointerCapture(e.pointerId)};cv.onpointerup=cv.onpointercancel=()=>dr=0;
-cv.onpointermove=e=>{if(!dr)return;const k=N/cv.clientWidth,t=tg?fp:ph;t.x+=(e.clientX-lx)*k/A;t.y+=(e.clientY-ly)*k/A;lx=e.clientX;ly=e.clientY;if(tg)fdy=1;else pdy=1;draw()};
+cv.onpointermove=e=>{if(!dr)return;const k=PN/cv.clientWidth,t=tg?fp:ph;t.x+=(e.clientX-lx)*k/PA;t.y+=(e.clientY-ly)*k/PA;lx=e.clientX;ly=e.clientY;if(tg)fdy=1;else pdy=1;draw()};
 window.ed=()=>{const u=U[me];$('sd').value=u.name;$('sf').value=u.frame||0;ph={x:0,y:0,z:1};fp=u.ft||{x:0,y:0,s:1.36};pdy=fdy=0;fim=null;fimData=u.fimg||'';img=new Image;img.onload=draw;if(u.photo)img.src=u.photo;if(u.fimg){fim=new Image;fim.onload=draw;fim.src=u.fimg}tg=0;$('t0').className='on';$('t1').className='';$('zm').value=1;draw()};
 window.pick=i=>{const f=i.files[0];if(!f)return;img=new Image;img.onload=()=>{ph={x:0,y:0,z:1};pdy=1;tgt(0);$('zm').value=1;draw()};img.src=URL.createObjectURL(f)};
 window.cfr=async i=>{const f=i.files[0];if(!f)return;fimData=await small(f,360);fim=new Image;fim.onload=()=>{fp={x:0,y:0,s:1.4};fdy=1;$('sf').value='c';tgt(1);draw()};fim.src=fimData};
