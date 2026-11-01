@@ -70,7 +70,7 @@ import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-ap
 import*as A from"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import*as F from"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 const VAPID="";/* Firebase > Cloud Messaging > Web Push key */
-const cfg={/* PASTE YOUR FIREBASE WEB CONFIG HERE */};
+const cfg={apiKey:"AIzaSyAbaKvXYuFS8HikfGYoz_MTOSBGw052TtU",authDomain:"constellate-cool.firebaseapp.com",projectId:"constellate-cool",storageBucket:"constellate-cool.firebasestorage.app",messagingSenderId:"865952808925",appId:"1:865952808925:web:f6c0cc55bfcbbba8144034",measurementId:"G-LY8NC89BTY"};
 const app=initializeApp(cfg),au=A.getAuth(app),db=F.getFirestore(app);
 const $=i=>document.getElementById(i),U={},E={};let seen=new Set(),first=1,unc,ti,lt=0,me,cur,unsub,reply,img=new Image,ox=0,oy=0,fr='',emj={};
 const doc=(...a)=>F.doc(db,...a),col=(...a)=>F.collection(db,...a);
